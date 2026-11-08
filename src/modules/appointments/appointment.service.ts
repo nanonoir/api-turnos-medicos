@@ -3,6 +3,8 @@ import { appointments } from "../../db/schema.js";
 
 type NewAppointment = typeof appointments.$inferInsert;
 
+export class ValidationError extends Error {}
+
 export const appointmentService = {
     async findAll() {
         return appointmentRepository.findAll();
@@ -14,18 +16,18 @@ export const appointmentService = {
 
     async create(data: NewAppointment) {
         if (!data.patientName.trim()) {
-            throw new Error("El nombre del paciente es obligatorio");
+            throw new ValidationError("El nombre del paciente es obligatorio");
         }
 
         if (
             !(data.scheduledAt instanceof Date) ||
             Number.isNaN(data.scheduledAt.getTime())
         ) {
-            throw new Error("La fecha es inválida");
+            throw new ValidationError("La fecha es inválida");
         }
 
         if (data.scheduledAt.getTime() <= Date.now()) {
-            throw new Error("El turno debe ser en una fecha futura");
+            throw new ValidationError("El turno debe ser en una fecha futura");
         }
 
         return appointmentRepository.create(data);
@@ -33,7 +35,7 @@ export const appointmentService = {
 
     async update(id: number, data: Partial<NewAppointment>) {
         if (data.patientName !== undefined && !data.patientName.trim()) {
-            throw new Error("El nombre del paciente no puede estar vacío");
+            throw new ValidationError("El nombre del paciente no puede estar vacío");
         }
 
         if (data.scheduledAt !== undefined) {
@@ -41,11 +43,11 @@ export const appointmentService = {
                 !(data.scheduledAt instanceof Date) ||
                 Number.isNaN(data.scheduledAt.getTime())
             ) {
-                throw new Error("La fecha es inválida");
+                throw new ValidationError("La fecha es inválida");
             }
 
             if (data.scheduledAt.getTime() <= Date.now()) {
-                throw new Error("El turno debe ser en una fecha futura");
+                throw new ValidationError("El turno debe ser en una fecha futura");
             }
         }
 

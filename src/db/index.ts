@@ -5,11 +5,11 @@ import { drizzle } from "drizzle-orm/node-postgres";
 const databaseUrl = process.env.DATABASE_URL;
 
 if (!databaseUrl) {
-  throw new Error("DATABASE_URL is required");
+    throw new Error("DATABASE_URL is required");
 }
 
 export const pool = new Pool({
-  connectionString: databaseUrl,
+    connectionString: databaseUrl,
 });
 
 export const db = drizzle({ client: pool });

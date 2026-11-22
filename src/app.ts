@@ -8,6 +8,10 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
+app.get("/", (_req, res) => {
+    res.redirect(302, "/index.html");
+});
+
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/auth", authRoutes);
 

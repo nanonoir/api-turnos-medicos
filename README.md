@@ -29,6 +29,7 @@ Routes → Controllers → Services → Repositories → PostgreSQL
 ```
 ├── drizzle/                     # Migraciones SQL generadas por Drizzle Kit
 ├── images/                      # Evidencias de pruebas
+├── public/                      # Frontend de demostración (HTML, CSS y JS)
 ├── src/
 │   ├── app.ts                   # Configuración de Express y rutas
 │   ├── server.ts                # Punto de entrada
@@ -117,6 +118,17 @@ npm run dev
 ```
 
 La API queda disponible en `http://localhost:3000`.
+
+### Frontend de demostración
+
+Abriendo `http://localhost:3000` en el navegador se accede a un panel para probar todos los endpoints sin herramientas externas:
+
+- Registro, inicio y cierre de sesión. El token se guarda solo en memoria y se envía automáticamente en las operaciones protegidas.
+- Listar, consultar, crear, modificar y eliminar turnos.
+- Inspector que muestra el método, la URL, el código HTTP y el JSON de cada respuesta real, con el token oculto.
+- Botones para provocar los errores 400, 401 y 404.
+
+Está hecho con HTML, CSS y JavaScript nativos en la carpeta `public/`, que Express sirve con `express.static`.
 
 Otros scripts:
 

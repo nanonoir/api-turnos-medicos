@@ -74,13 +74,15 @@ Copiar el archivo de ejemplo y completar los valores:
 cp .env.example .env
 ```
 
-En PowerShell: `Copy-Item .env.example .env`. Los valores de ejemplo ya funcionan con el contenedor del paso 3.
+En PowerShell: `Copy-Item .env.example .env`.
 
-| Variable | Descripción |
-|---|---|
-| `PORT` | Puerto de la API (por defecto `3000`) |
-| `DATABASE_URL` | Cadena de conexión a PostgreSQL |
-| `JWT_SECRET` | Secreto para firmar los tokens. Usar un valor largo y aleatorio |
+| Variable | Descripción | Ejemplo para desarrollo local |
+|---|---|---|
+| `PORT` | Puerto de la API (por defecto `3000`) | `3000` |
+| `DATABASE_URL` | Cadena de conexión a PostgreSQL | `postgresql://postgres:postgres@localhost:5432/turnos_medicos` |
+| `JWT_SECRET` | Secreto para firmar los tokens | Un valor largo y aleatorio |
+
+El `DATABASE_URL` de ejemplo coincide con el contenedor del paso 3.
 
 ### 3. Iniciar PostgreSQL con Docker
 
@@ -249,9 +251,79 @@ Los errores se devuelven con el formato:
 
 ## Evidencias de pruebas
 
+### Colección de Thunder Client
+
+El archivo [`thunder-collection.json`](./thunder-collection.json) contiene todos los requests, organizados en las carpetas Autenticación, Turnos y Casos de error.
+
+Para usarla:
+
+1. En Thunder Client, abrir **Collections** → menú ☰ → **Import** y elegir `thunder-collection.json`.
+2. Ejecutar los requests en orden sobre una base recién migrada.
+3. Copiar el `token` de la respuesta de **Login (200)** y pegarlo en **Auth → Bearer** de los requests que lo requieren: Crear, Modificar, Eliminar y Especialidad vacía.
+
+Cada request indica en su nombre el código HTTP esperado. Los de Obtener, Modificar y Eliminar usan el ID `1`, que corresponde al primer turno creado en una base vacía.
+
+Las siguientes capturas muestran cada endpoint ejecutado en Thunder Client con la API corriendo contra PostgreSQL.
+
 ### Semana 1 — CRUD de turnos
 
 ![Pruebas de la API con Thunder Client - Semana 1](./images/thunder-client-1.png)
+
+### Autenticación
+
+#### Registro — `201 Created`
+
+Se registra un usuario nuevo. La respuesta devuelve solo `id` y `email`, sin la contraseña.
+
+![Thunder Client - Registro 201](./images/register-201.png)
+
+#### Email duplicado — `409 Conflict`
+
+Se intenta registrar nuevamente el mismo email.
+
+![Thunder Client - Registro 409](./images/register-409.png)
+
+#### Login — `200 OK`
+
+Con credenciales correctas, la API devuelve el JWT y los datos públicos del usuario.
+
+![Thunder Client - Login 200](./images/login-200.png)
+
+#### Credenciales incorrectas — `401 Unauthorized`
+
+Se intenta iniciar sesión con una contraseña incorrecta.
+
+![Thunder Client - Login 401](./images/login-401.png)
+
+### CRUD de turnos
+
+#### Crear turno con token — `201 Created`
+
+Se crea un turno enviando el Bearer Token obtenido en el login.
+
+![Thunder Client - Crear turno 201](./images/create-201.png)
+
+#### Listar turnos sin token — `200 OK`
+
+La consulta de turnos es pública.
+
+![Thunder Client - Listar turnos 200](./images/get-all-200.png)
+
+#### Obtener turno por ID — `200 OK`
+
+![Thunder Client - Obtener turno 200](./images/get-by-id-200.png)
+
+#### Modificar turno con token — `200 OK`
+
+![Thunder Client - Modificar turno 200](./images/update-200.png)
+
+#### Eliminar turno con token — `200 OK`
+
+La respuesta devuelve el turno eliminado.
+
+![Thunder Client - Eliminar turno 200](./images/delete-200.png)
+
+### Casos de error
 
 #### Error 400 — Datos inválidos
 
@@ -270,9 +342,8 @@ Se intenta crear un turno sin enviar el Bearer Token. El middleware `requireAuth
 Se consulta un turno cuyo ID no existe en PostgreSQL. La API responde `404 Not Found`.
 
 ![Thunder Client - Error 404](./images/error-404.png)
-### Entrega final — Autenticación y validaciones
 
-Pruebas HTTP de integración ejecutadas contra la API con PostgreSQL:
+### Resumen de pruebas
 
 | Operación | Esperado | Resultado |
 |---|---|---|

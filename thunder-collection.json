@@ -1,0 +1,232 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "API Turnos Médicos",
+  "collectionId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+  "dateExported": "2026-11-22T01:36:01.604Z",
+  "version": "1.2",
+  "folders": [
+    {
+      "_id": "4b6422b3-2bfd-4745-8597-0cdac60dfa7d",
+      "name": "Autenticación",
+      "containerId": "",
+      "created": "2026-11-22T01:36:01.604Z",
+      "sortNum": 10000
+    },
+    {
+      "_id": "195b3b3c-e6d3-4fdd-802c-fbef16302936",
+      "name": "Turnos",
+      "containerId": "",
+      "created": "2026-11-22T01:36:01.604Z",
+      "sortNum": 20000
+    },
+    {
+      "_id": "34eef03b-9cbb-49b2-ba88-68e126b1913c",
+      "name": "Casos de error",
+      "containerId": "",
+      "created": "2026-11-22T01:36:01.604Z",
+      "sortNum": 30000
+    }
+  ],
+  "requests": [
+    {
+      "_id": "a5b16fdb-bb2f-41fe-8cda-8a775d0babe9",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "4b6422b3-2bfd-4745-8597-0cdac60dfa7d",
+      "name": "Registro (201)",
+      "url": "http://localhost:3000/api/auth/register",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"nahuel@example.com\",\n  \"password\": \"MiClaveSegura123!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "f727f398-54e5-4a70-8794-89c3f918b11b",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "4b6422b3-2bfd-4745-8597-0cdac60dfa7d",
+      "name": "Registro duplicado (409)",
+      "url": "http://localhost:3000/api/auth/register",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"nahuel@example.com\",\n  \"password\": \"MiClaveSegura123!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "3fa2d806-ff3b-4786-a2b9-d03e7d0bb7ba",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "4b6422b3-2bfd-4745-8597-0cdac60dfa7d",
+      "name": "Login (200)",
+      "url": "http://localhost:3000/api/auth/login",
+      "method": "POST",
+      "sortNum": 30000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"nahuel@example.com\",\n  \"password\": \"MiClaveSegura123!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "0aa9b194-60bb-456f-aeec-96bfbd8e444f",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "4b6422b3-2bfd-4745-8597-0cdac60dfa7d",
+      "name": "Login incorrecto (401)",
+      "url": "http://localhost:3000/api/auth/login",
+      "method": "POST",
+      "sortNum": 40000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"nahuel@example.com\",\n  \"password\": \"EstaNoEsMiClave912\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "0711de0b-a1d5-480f-8227-d4f2937ff172",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "195b3b3c-e6d3-4fdd-802c-fbef16302936",
+      "name": "Crear turno (201)",
+      "url": "http://localhost:3000/api/appointments",
+      "method": "POST",
+      "sortNum": 50000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"patientName\": \"Julián Alvarez\",\n  \"specialty\": \"Oftalmólogo\",\n  \"scheduledAt\": \"2027-03-15T10:30:00.000Z\"\n}",
+        "form": []
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": ""
+      }
+    },
+    {
+      "_id": "3c06dcc3-d1f7-4fe1-b73d-0a94b4b0ef9e",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "195b3b3c-e6d3-4fdd-802c-fbef16302936",
+      "name": "Listar turnos (200)",
+      "url": "http://localhost:3000/api/appointments",
+      "method": "GET",
+      "sortNum": 60000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": []
+    },
+    {
+      "_id": "81cc433e-046f-4525-8150-ed0921f3cfa5",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "195b3b3c-e6d3-4fdd-802c-fbef16302936",
+      "name": "Obtener turno (200)",
+      "url": "http://localhost:3000/api/appointments/1",
+      "method": "GET",
+      "sortNum": 70000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": []
+    },
+    {
+      "_id": "395b67c4-b5e3-4b8a-aff4-c7beca20847a",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "195b3b3c-e6d3-4fdd-802c-fbef16302936",
+      "name": "Modificar turno (200)",
+      "url": "http://localhost:3000/api/appointments/1",
+      "method": "PUT",
+      "sortNum": 80000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"patientName\": \"Lucas Pratto\",\n  \"specialty\": \"Fonoaudiología\"\n}",
+        "form": []
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": ""
+      }
+    },
+    {
+      "_id": "10037d5b-15d2-4e1e-b9fb-5168d34a912c",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "195b3b3c-e6d3-4fdd-802c-fbef16302936",
+      "name": "Eliminar turno (200)",
+      "url": "http://localhost:3000/api/appointments/1",
+      "method": "DELETE",
+      "sortNum": 90000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": ""
+      }
+    },
+    {
+      "_id": "2a33e21b-1e0e-40c2-a9f5-7ab67400c461",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "34eef03b-9cbb-49b2-ba88-68e126b1913c",
+      "name": "Especialidad vacía (400)",
+      "url": "http://localhost:3000/api/appointments",
+      "method": "POST",
+      "sortNum": 100000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"patientName\": \"Juan Pérez\",\n  \"specialty\": \"\",\n  \"scheduledAt\": \"2027-03-15T10:30:00.000Z\"\n}",
+        "form": []
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": ""
+      }
+    },
+    {
+      "_id": "f96c3cbb-7b3a-4713-aaf7-9b162cf5f496",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "34eef03b-9cbb-49b2-ba88-68e126b1913c",
+      "name": "Crear sin token (401)",
+      "url": "http://localhost:3000/api/appointments",
+      "method": "POST",
+      "sortNum": 110000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"patientName\": \"Juan Pérez\",\n  \"specialty\": \"Cardiología\",\n  \"scheduledAt\": \"2027-03-15T10:30:00.000Z\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "6ca8efcc-6b38-44c5-9b40-fbbc74ee1105",
+      "colId": "24dc198d-1575-4b0d-9ee1-6a81dddac372",
+      "containerId": "34eef03b-9cbb-49b2-ba88-68e126b1913c",
+      "name": "Turno inexistente (404)",
+      "url": "http://localhost:3000/api/appointments/999999",
+      "method": "GET",
+      "sortNum": 120000,
+      "created": "2026-11-22T01:36:01.604Z",
+      "modified": "2026-11-22T01:36:01.604Z",
+      "headers": []
+    }
+  ]
+}

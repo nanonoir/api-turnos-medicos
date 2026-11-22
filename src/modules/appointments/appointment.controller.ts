@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import { appointmentService, ValidationError } from "./appointment.service.js";
 
+const MAX_ID = 2_147_483_647;
+
 export const appointmentController = {
     async findAll(_req: Request, res: Response) {
         try {
@@ -19,7 +21,7 @@ export const appointmentController = {
         try {
             const id = Number(req.params.id);
 
-            if (!Number.isSafeInteger(id) || id <= 0) {
+            if (!Number.isSafeInteger(id) || id <= 0 || id > MAX_ID) {
                 res.status(400).json({ message: "ID inválido" });
                 return;
             }
@@ -94,7 +96,7 @@ export const appointmentController = {
         try {
             const id = Number(req.params.id);
 
-            if (!Number.isSafeInteger(id) || id <= 0) {
+            if (!Number.isSafeInteger(id) || id <= 0 || id > MAX_ID) {
                 res.status(400).json({ message: "ID inválido" });
                 return;
             }
@@ -167,7 +169,7 @@ export const appointmentController = {
         try {
             const id = Number(req.params.id);
 
-            if (!Number.isSafeInteger(id) || id <= 0) {
+            if (!Number.isSafeInteger(id) || id <= 0 || id > MAX_ID) {
                 res.status(400).json({ message: "ID inválido" });
                 return;
             }

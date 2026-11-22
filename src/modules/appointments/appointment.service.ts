@@ -5,6 +5,8 @@ type NewAppointment = typeof appointments.$inferInsert;
 
 export class ValidationError extends Error {}
 
+const MAX_TEXT_LENGTH = 120;
+
 export const appointmentService = {
     async findAll() {
         return appointmentRepository.findAll();
@@ -17,6 +19,19 @@ export const appointmentService = {
     async create(data: NewAppointment) {
         if (!data.patientName.trim()) {
             throw new ValidationError("El nombre del paciente es obligatorio");
+        }
+
+        if (!data.specialty.trim()) {
+            throw new ValidationError("La especialidad es obligatoria");
+        }
+
+        if (
+            data.patientName.length > MAX_TEXT_LENGTH ||
+            data.specialty.length > MAX_TEXT_LENGTH
+        ) {
+            throw new ValidationError(
+                `El nombre y la especialidad no pueden superar ${MAX_TEXT_LENGTH} caracteres`
+            );
         }
 
         if (
@@ -36,6 +51,21 @@ export const appointmentService = {
     async update(id: number, data: Partial<NewAppointment>) {
         if (data.patientName !== undefined && !data.patientName.trim()) {
             throw new ValidationError("El nombre del paciente no puede estar vacío");
+        }
+
+        if (data.specialty !== undefined && !data.specialty.trim()) {
+            throw new ValidationError("La especialidad no puede estar vacía");
+        }
+
+        if (
+            (data.patientName !== undefined &&
+                data.patientName.length > MAX_TEXT_LENGTH) ||
+            (data.specialty !== undefined &&
+                data.specialty.length > MAX_TEXT_LENGTH)
+        ) {
+            throw new ValidationError(
+                `El nombre y la especialidad no pueden superar ${MAX_TEXT_LENGTH} caracteres`
+            );
         }
 
         if (data.scheduledAt !== undefined) {

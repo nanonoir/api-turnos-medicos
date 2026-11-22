@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>API de Turnos Médicos</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <span>Noir Nahuel Nicolas</span>
+        <span>Trabajo Práctico Integrador: Bootcamp Devlights 5.0</span>
+    </header>
+
+    <main class="page">
+        <section class="intro">
+            <h1>API de Turnos Médicos</h1>
+            <p class="subtitle">Panel de demostración de endpoints REST</p>
+            <p class="server-status" id="server-status" role="status">
+                <span class="dot" aria-hidden="true"></span>
+                <span id="server-status-text">Verificando servidor…</span>
+            </p>
+        </section>
+
+        <div class="layout">
+            <div class="column">
+                <section class="panel" aria-labelledby="auth-title">
+                    <h2 id="auth-title">Autenticación</h2>
+
+                    <div id="auth-session" class="session" hidden>
+                        <p>
+                            Sesión iniciada como <strong id="session-email"></strong>
+                            <span class="muted" id="session-expiry"></span>
+                        </p>
+                        <button type="button" class="button secondary" id="logout-button">Cerrar sesión</button>
+                    </div>
+
+                    <div id="auth-forms">
+                        <div class="tabs" role="group" aria-label="Modo de autenticación">
+                            <button type="button" class="tab" id="tab-login" aria-pressed="true">Inicio de sesión</button>
+                            <button type="button" class="tab" id="tab-register" aria-pressed="false">Registro</button>
+                        </div>
+
+                        <form id="auth-form" class="form">
+                            <div class="field">
+                                <label for="auth-email">Email</label>
+                                <input id="auth-email" name="email" type="email" autocomplete="email" required>
+                            </div>
+                            <div class="field">
+                                <label for="auth-password">Contraseña</label>
+                                <input id="auth-password" name="password" type="password" autocomplete="current-password" minlength="8" required>
+                                <p class="hint">Mínimo 8 caracteres.</p>
+                            </div>
+                            <button type="submit" class="button" id="auth-submit">Iniciar sesión</button>
+                        </form>
+                    </div>
+
+                    <p class="message" id="auth-message" role="status"></p>
+                </section>
+
+                <section class="panel" aria-labelledby="form-title">
+                    <h2 id="form-title">Crear turno</h2>
+                    <p class="muted" id="form-auth-hint">Requiere iniciar sesión.</p>
+
+                    <form id="appointment-form" class="form">
+                        <div class="field">
+                            <label for="patient-name">Nombre del paciente</label>
+                            <input id="patient-name" name="patientName" type="text" maxlength="120" required>
+                        </div>
+                        <div class="field">
+                            <label for="specialty">Especialidad</label>
+                            <input id="specialty" name="specialty" type="text" maxlength="120" required>
+                        </div>
+                        <div class="field">
+                            <label for="scheduled-at">Fecha y hora</label>
+                            <input id="scheduled-at" name="scheduledAt" type="datetime-local" required>
+                            <p class="hint" id="date-warning" hidden>La fecha elegida ya pasó: la API responderá 400.</p>
+                        </div>
+                        <div class="field">
+                            <label for="status">Estado</label>
+                            <select id="status" name="status">
+                                <option value="pending">pending — Pendiente</option>
+                                <option value="confirmed">confirmed — Confirmado</option>
+                                <option value="cancelled">cancelled — Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="button" id="form-submit">Crear turno</button>
+                            <button type="button" class="button secondary" id="form-cancel" hidden>Cancelar edición</button>
+                        </div>
+                    </form>
+
+                    <p class="message" id="form-message" role="status"></p>
+                </section>
+
+                <section class="panel" aria-labelledby="lookup-title">
+                    <h2 id="lookup-title">Consultar turno</h2>
+                    <form id="lookup-form" class="inline-form">
+                        <div class="field">
+                            <label for="lookup-id">ID del turno</label>
+                            <input id="lookup-id" name="id" type="number" min="1" step="1" required>
+                        </div>
+                        <button type="submit" class="button secondary">Consultar</button>
+                    </form>
+                </section>
+            </div>
+
+            <div class="column">
+                <section class="panel" aria-labelledby="list-title">
+                    <div class="panel-header">
+                        <h2 id="list-title">Turnos</h2>
+                        <button type="button" class="button secondary" id="refresh-button">Actualizar lista</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Paciente</th>
+                                    <th scope="col">Especialidad</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col"><span class="visually-hidden">Acciones</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointments-body"></tbody>
+                        </table>
+                    </div>
+                    <p class="muted" id="list-message" role="status"></p>
+                </section>
+
+                <section class="panel" aria-labelledby="inspector-title">
+                    <div class="panel-header">
+                        <h2 id="inspector-title">Inspector de respuestas HTTP</h2>
+                        <button type="button" class="button secondary" id="copy-button" disabled>Copiar JSON</button>
+                    </div>
+
+                    <div class="inspector-request" aria-live="polite">
+                        <span class="method" id="inspector-method">—</span>
+                        <code id="inspector-url">Ejecutá una petición para ver su respuesta</code>
+                        <span class="status-code" id="inspector-status"></span>
+                    </div>
+                    <pre class="inspector-body" id="inspector-body" tabindex="0"></pre>
+
+                    <div class="error-tests">
+                        <p class="muted">Pruebas de errores (peticiones reales):</p>
+                        <div class="actions">
+                            <button type="button" class="button secondary" id="test-400">400 · Especialidad vacía</button>
+                            <button type="button" class="button secondary" id="test-401">401 · Crear sin token</button>
+                            <button type="button" class="button secondary" id="test-404">404 · ID inexistente</button>
+                        </div>
+                        <p class="hint">La prueba 400 usa tu sesión: iniciá sesión antes.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -6,6 +6,7 @@ import authRoutes from "./auth/auth.routes.js";
 const app = express();
 
 app.use(express.json());
+app.use(express.static("public"));
 
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/auth", authRoutes);
